@@ -4,7 +4,7 @@ export default function App() {
   const [display, setDisplay] = React.useState({ up: [], down: [0] })
 
   function clearBtn() {
-    setDisplay((prev) => ({ ...prev, up: [], down: [0] }))
+    setDisplay({ up: [], down: [0] })
   }
 
   function tipeNumber(e) {
