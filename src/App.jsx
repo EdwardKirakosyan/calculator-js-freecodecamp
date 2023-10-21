@@ -1,65 +1,31 @@
 import React from "react"
+import { nanoid } from "nanoid"
+
+const numbers = [
+  { name: "seven", num: 7, id: nanoid() },
+  { name: "eight", num: 8, id: nanoid() },
+  { name: "nine", num: 9, id: nanoid() },
+  { name: "four", num: 4, id: nanoid() },
+  { name: "five", num: 5, id: nanoid() },
+  { name: "six", num: 6, id: nanoid() },
+  { name: "one", num: 1, id: nanoid() },
+  { name: "two", num: 2, id: nanoid() },
+  { name: "three", num: 3, id: nanoid() },
+  { name: "zero", num: 0, id: nanoid() },
+  { name: "decimal", num: ".", id: nanoid() },
+]
+
+const operators = [
+  { name: "clear", sign: "AC", id: nanoid() },
+  { name: "add", sign: "+", id: nanoid() },
+  { name: "subtract", sign: "-", id: nanoid() },
+  { name: "multiply", sign: "*", id: nanoid() },
+  { name: "divide", sign: "/", id: nanoid() },
+  { name: "equals", sign: "=", id: nanoid() },
+]
 
 export default function App() {
   const [display, setDisplay] = React.useState({ up: [], down: [0] })
-
-  function clearBtn() {
-    setDisplay({ up: [], down: [0] })
-  }
-
-  function tipeNumber(e) {
-    const targetValue = e.target.textContent
-    setDisplay((prev) => {
-      if (
-        prev.down[0] === 0 ||
-        prev.down[0] === "+" ||
-        prev.down[0] === "-" ||
-        prev.down[0] === "/" ||
-        prev.down[0] === "*"
-      ) {
-        return {
-          ...prev,
-          up: [...prev.up, targetValue],
-          down: [targetValue],
-        }
-      } else {
-        return {
-          ...prev,
-          up: [...prev.up, targetValue],
-          down: [...prev.down, targetValue],
-        }
-      }
-    })
-  }
-
-  function add() {
-    if (display.down !== 0) {
-      setDisplay((prev) => ({ ...prev, up: [...prev.up, "+"], down: ["+"] }))
-    }
-  }
-
-  function subtract() {
-    if (display.down !== 0) {
-      setDisplay((prev) => ({ ...prev, up: [...prev.up, "-"], down: ["-"] }))
-    }
-  }
-
-  function multiply() {
-    if (display.down !== 0) {
-      setDisplay((prev) => ({ ...prev, up: [...prev.up, "*"], down: ["*"] }))
-    }
-  }
-
-  function divide() {
-    if (display.down !== 0) {
-      setDisplay((prev) => ({ ...prev, up: [...prev.up, "/"], down: ["/"] }))
-    }
-  }
-
-  function result() {
-    const res = eval(display.up.join(""))
-    setDisplay((prev) => ({ ...prev, up: [...prev.up, "=", res], down: res }))
-  }
 
   return (
     <div id="main-div">
@@ -69,55 +35,18 @@ export default function App() {
       </div>
       <div id="inner">
         <div id="numbers">
-          <div onClick={tipeNumber} id="seven">
-            7
-          </div>
-          <div onClick={tipeNumber} id="eight">
-            8
-          </div>
-          <div onClick={tipeNumber} id="nine">
-            9
-          </div>
-          <div onClick={tipeNumber} id="four">
-            4
-          </div>
-          <div onClick={tipeNumber} id="five">
-            5
-          </div>
-          <div onClick={tipeNumber} id="six">
-            6
-          </div>
-          <div onClick={tipeNumber} id="one">
-            1
-          </div>
-          <div onClick={tipeNumber} id="two">
-            2
-          </div>
-          <div onClick={tipeNumber} id="three">
-            3
-          </div>
-          <div id="zero">0</div>
-          <div id="decimal">.</div>
+          {numbers.map((item) => (
+            <div key={item.id} id={item.name}>
+              {item.num}
+            </div>
+          ))}
         </div>
         <div id="operators">
-          <div onClick={clearBtn} id="clear">
-            AC
-          </div>
-          <div onClick={add} id="add">
-            +
-          </div>
-          <div onClick={subtract} id="subtract">
-            -
-          </div>
-          <div onClick={multiply} id="multiply">
-            *
-          </div>
-          <div onClick={divide} id="divide">
-            /
-          </div>
-          <div onClick={result} id="equals">
-            =
-          </div>
+          {operators.map((item) => (
+            <div key={item.id} id={item.name}>
+              {item.sign}
+            </div>
+          ))}
         </div>
       </div>
     </div>
