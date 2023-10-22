@@ -62,9 +62,14 @@ export default function App() {
     }
 
     if (operator === "=") {
-      if (upperDisplay.length >= 1 && !upperDisplay.includes("=")) {
+      if (upperDisplay.length >= 1) {
         setUpperDisplay((prev) => {
-          const rez = eval(prev.join(""))
+          const substringArray = prev.join("").split(operator)
+          console.log(substringArray)
+          const rez =
+            substringArray.length > 1
+              ? eval(substringArray.slice(substringArray.length - 1).join(""))
+              : eval(prev.join(""))
           setDownDisplay([rez])
           return [...prev, "=", rez]
         })
@@ -72,23 +77,31 @@ export default function App() {
     }
 
     if (operator === "+") {
-      setUpperDisplay((prev) => [...prev, "+"])
-      setDownDisplay([operator])
+      if (upperDisplay.length >= 1) {
+        setUpperDisplay((prev) => [...prev, "+"])
+        setDownDisplay([operator])
+      }
     }
 
     if (operator === "-") {
-      setUpperDisplay((prev) => [...prev, "-"])
-      setDownDisplay([operator])
+      if (upperDisplay.length >= 1) {
+        setUpperDisplay((prev) => [...prev, "-"])
+        setDownDisplay([operator])
+      }
     }
 
     if (operator === "*") {
-      setUpperDisplay((prev) => [...prev, "*"])
-      setDownDisplay([operator])
+      if (upperDisplay.length >= 1) {
+        setUpperDisplay((prev) => [...prev, "*"])
+        setDownDisplay([operator])
+      }
     }
 
     if (operator === "/") {
-      setUpperDisplay((prev) => [...prev, "/"])
-      setDownDisplay([operator])
+      if (upperDisplay.length >= 1) {
+        setUpperDisplay((prev) => [...prev, "/"])
+        setDownDisplay([operator])
+      }
     }
   }
 
