@@ -25,25 +25,41 @@ const operators = [
 ]
 
 export default function App() {
-  const [display, setDisplay] = React.useState({ up: [], down: [0] })
+  const [upperDisplay, setUpperDisplay] = React.useState([])
+  const [downDisplay, setDownDisplay] = React.useState([0])
+
+  const handleNumber = (number) => {
+    setDownDisplay((prev) => (prev[0] === 0 ? [number] : [...prev, number]))
+    setUpperDisplay((prev) => (prev[0] === 0 ? [number] : [...prev, number]))
+  }
+
+  const handleOperator = (operator) => {}
 
   return (
     <div id="main-div">
       <div id="main-display">
-        <p>{display.up}</p>
-        <h2 id="display">{display.down}</h2>
+        <p>{upperDisplay}</p>
+        <h2 id="display">{downDisplay}</h2>
       </div>
       <div id="inner">
         <div id="numbers">
           {numbers.map((item) => (
-            <div key={item.id} id={item.name}>
+            <div
+              onClick={() => handleNumber(item.num)}
+              key={item.id}
+              id={item.name}
+            >
               {item.num}
             </div>
           ))}
         </div>
         <div id="operators">
           {operators.map((item) => (
-            <div key={item.id} id={item.name}>
+            <div
+              onClick={() => handleOperator(item.sign)}
+              key={item.id}
+              id={item.name}
+            >
               {item.sign}
             </div>
           ))}
