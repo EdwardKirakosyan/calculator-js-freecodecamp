@@ -12,7 +12,6 @@ const numbers = [
   { name: "two", num: 2, id: nanoid() },
   { name: "three", num: 3, id: nanoid() },
   { name: "zero", num: 0, id: nanoid() },
-  { name: "decimal", num: ".", id: nanoid() },
 ]
 
 const operators = [
@@ -28,12 +27,70 @@ export default function App() {
   const [upperDisplay, setUpperDisplay] = React.useState([])
   const [downDisplay, setDownDisplay] = React.useState([0])
 
+  function handleDecimal() {
+    if (downDisplay.includes(".")) {
+      null
+    } else {
+      setDownDisplay((prev) => [...prev, "."])
+      setUpperDisplay((prev) => {
+        if (prev.length < 1) {
+          return ["0."]
+        } else {
+          return [...prev, "."]
+        }
+      })
+    }
+  }
+
   const handleNumber = (number) => {
-    setDownDisplay((prev) => (prev[0] === 0 ? [number] : [...prev, number]))
+    setDownDisplay((prev) =>
+      (prev[0] === 0 && prev[1] !== ".") ||
+      prev[0] === "+" ||
+      prev[0] === "-" ||
+      prev[0] === "*" ||
+      prev[0] === "/"
+        ? [number]
+        : [...prev, number]
+    )
     setUpperDisplay((prev) => (prev[0] === 0 ? [number] : [...prev, number]))
   }
 
-  const handleOperator = (operator) => {}
+  const handleOperator = (operator) => {
+    if (operator === "AC") {
+      setDownDisplay([0])
+      setUpperDisplay([])
+    }
+
+    if (operator === "=") {
+      if (upperDisplay.length >= 1 && !upperDisplay.includes("=")) {
+        setUpperDisplay((prev) => {
+          const rez = eval(prev.join(""))
+          setDownDisplay([rez])
+          return [...prev, "=", rez]
+        })
+      }
+    }
+
+    if (operator === "+") {
+      setUpperDisplay((prev) => [...prev, "+"])
+      setDownDisplay([operator])
+    }
+
+    if (operator === "-") {
+      setUpperDisplay((prev) => [...prev, "-"])
+      setDownDisplay([operator])
+    }
+
+    if (operator === "*") {
+      setUpperDisplay((prev) => [...prev, "*"])
+      setDownDisplay([operator])
+    }
+
+    if (operator === "/") {
+      setUpperDisplay((prev) => [...prev, "/"])
+      setDownDisplay([operator])
+    }
+  }
 
   return (
     <div id="main-div">
@@ -52,6 +109,9 @@ export default function App() {
               {item.num}
             </div>
           ))}
+          <div onClick={handleDecimal} id="decimal">
+            .
+          </div>
         </div>
         <div id="operators">
           {operators.map((item) => (
