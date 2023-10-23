@@ -20,7 +20,6 @@ const operators = [
   { name: "subtract", sign: "-", id: nanoid() },
   { name: "multiply", sign: "*", id: nanoid() },
   { name: "divide", sign: "/", id: nanoid() },
-  { name: "equals", sign: "=", id: nanoid() },
 ]
 
 export default function App() {
@@ -42,6 +41,20 @@ export default function App() {
     }
   }
 
+  const handleEquals = () => {
+    if (upperDisplay.length >= 1) {
+      setUpperDisplay((prev) => {
+        const substringArray = prev.join("").split("=")
+        const rez =
+          substringArray.length > 1
+            ? eval(substringArray.slice(substringArray.length - 1).join(""))
+            : eval(prev.join(""))
+        setDownDisplay([rez])
+        return [...prev, "=", rez]
+      })
+    }
+  }
+
   const handleNumber = (number) => {
     setDownDisplay((prev) =>
       (prev[0] === 0 && prev[1] !== ".") ||
@@ -59,21 +72,6 @@ export default function App() {
     if (operator === "AC") {
       setDownDisplay([0])
       setUpperDisplay([])
-    }
-
-    if (operator === "=") {
-      if (upperDisplay.length >= 1) {
-        setUpperDisplay((prev) => {
-          const substringArray = prev.join("").split(operator)
-          console.log(substringArray)
-          const rez =
-            substringArray.length > 1
-              ? eval(substringArray.slice(substringArray.length - 1).join(""))
-              : eval(prev.join(""))
-          setDownDisplay([rez])
-          return [...prev, "=", rez]
-        })
-      }
     }
 
     if (operator === "+") {
@@ -136,6 +134,9 @@ export default function App() {
               {item.sign}
             </div>
           ))}
+          <div id="equals" onClick={handleEquals}>
+            =
+          </div>
         </div>
       </div>
     </div>
